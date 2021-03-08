@@ -11,7 +11,7 @@ To conduct the maximum likelihood estimate, I'm gonna make an assumption that th
 ![image](https://user-images.githubusercontent.com/64437206/110268736-d3767380-7f87-11eb-9d58-8cf1cf170d6d.png)
 PDF of Pareto Dist. provided by wiki:https://en.wikipedia.org/wiki/Pareto_distribution
 
-#Let's begin
+# Let's begin
 ```
 #Required Packages
 
@@ -37,17 +37,42 @@ plt.title('Distribution of World GDP')
 plt.show()
 
 ```
-Given the data, a pareto distribution is a decent assumption to make as there are similarities. 
+This distribution does lend evidence to the gdp inequality within the world, possibly suggesting a pareto distribution.
 
 ![image](https://user-images.githubusercontent.com/64437206/110266395-50531e80-7f83-11eb-995a-12de67b1066b.png)
 
 From this plot it can be seen the outliers within the data which are China and United States
+# Lorenz Curve
 
-![image](https://user-images.githubusercontent.com/64437206/110268652-a7f38900-7f87-11eb-89be-7a883276758a.png)
+Lorenz curve is usually used to measure income iequality with the straight line being the equality line where everyone has equal income (or in this case equal gdp).  The further away the blue curve is from the equality line, the greater then inequality. 
+```
+arr.sort()
+def gini(arr):
+    count = arr.size
+    coefficient = 2 / count
+    indexes = np.arange(1, count + 1)
+    weighted_sum = (indexes * arr).sum()
+    total = arr.sum()
+    constant = (count + 1) / count
+    return coefficient * weighted_sum / total - constant
+
+def lorenz(arr):
+    # this divides the prefix sum by the total sum
+    # this ensures all the values are between 0 and 1.0
+    scaled_prefix_sum = arr.cumsum() / arr.sum()
+    # this prepends the 0 value (because 0% of all people have 0% of all wealth)
+    return np.insert(scaled_prefix_sum, 0, 0)
+
+# we need the X values to be between 0.0 to 1.0
+plt.plot(np.linspace(0.0, 1.0, lorenz_curve.size), lorenz_curve)
+# plot the straight line perfect equality curve
+plt.plot([0,1], [0,1])
+plt.xlabel('cum % of World GDP')
+plt.ylabel('cum % of Population (Countries)')
+plt.title('Lorenz Curve for World GDP 2019')
+plt.show()
+
+```
 
 
-
-
-
-I will see the maximum likelihood estimate for the parameter alpha in the pdf of the pareto distribution given the data. 
 
