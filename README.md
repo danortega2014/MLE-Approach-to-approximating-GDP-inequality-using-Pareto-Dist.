@@ -46,7 +46,7 @@ From this plot it can be seen the outliers within the data which are China and U
 
 Lorenz curve is usually used to measure income iequality with the straight line being the equality line where everyone has equal income (or in this case equal gdp).  The further away the blue curve is from the equality line, the greater then inequality. 
 ```
-arr.sort()
+arr.sort() #array must be sorted
 def gini(arr):
     count = arr.size
     coefficient = 2 / count
@@ -73,6 +73,18 @@ plt.title('Lorenz Curve for World GDP 2019')
 plt.show()
 
 ```
+
+![image](https://user-images.githubusercontent.com/64437206/110269300-0705cd80-7f89-11eb-87c3-f396d23c9231.png)
+
+This can be interpreted in the following ways:
+
+1. 60% of the cum. population contributes ~0% of the world gdp.
+2. 80% of the cum. population contributes ~5% of the world gdp.
+3. 80% of the world gdp contributes 80% of the world gdp. 
+
+Meaning that the majority of the people in the world do not contribute to the gdp statistic.
+This huge gdp inequality can be explained by several factors including economic institutions, governments, natural resources, etc
+Another big factor, as suggested by economist Hernando de Soto, is that a lot of underdeveloped countries have working markets, it's just that a lot of the data is not being tracked.
 
 
 
