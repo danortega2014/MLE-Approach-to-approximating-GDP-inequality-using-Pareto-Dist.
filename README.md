@@ -5,10 +5,11 @@ Data was retrieved from the World Bank.
 link: https://databank.worldbank.org/reports.aspx?source=2&series=NY.GDP.MKTP.CN&country=#
 
 
-To conduct the maximum likelihood estimate, I'm gonna make an assumption that this data follows a pareto distribution. A pareto distribution is a common distribution amongst many fields, but is especially prominent wealth economics. The pareto principal, which is the underlying idea of this distribution, is that 80% of an outcome is caused by 20% of the causes. This idea can be illustrated with gdp, as in 80% of gdp is caused by 20% of the population. I will be looking specifically at GDP for all countries for 2019.  I will illustrate the distribution as well as a lorenz curve (gdp version) using matplot. 
+To conduct the maximum likelihood estimate, I'm gonna make an assumption that this data follows a pareto distribution. A pareto distribution is a common distribution amongst many fields, but is especially prominent wealth economics. The pareto principal, which is the underlying idea of this distribution, is that 80% of an outcome is caused by 20% of the causes. This idea can be illustrated with gdp, as in 80% of gdp is caused by 20% of the population. I will be looking specifically at GDP for all countries for 2019.  I will illustrate the distribution as well as a lorenz curve (gdp version) using matplot. I will find the estimate for alpha itself by numerically optimizing the log like function of the pareto dist. pdf using the scipy optimize package.
 
 
 ![image](https://user-images.githubusercontent.com/64437206/110268736-d3767380-7f87-11eb-9d58-8cf1cf170d6d.png)
+
 PDF of Pareto Dist. provided by wiki:https://en.wikipedia.org/wiki/Pareto_distribution
 
 # Let's begin
@@ -85,6 +86,66 @@ This can be interpreted in the following ways:
 Meaning that the majority of the people in the world do not contribute to the gdp statistic.
 This huge gdp inequality can be explained by several factors including economic institutions, governments, natural resources, etc
 Another big factor, as suggested by economist Hernando de Soto, is that a lot of underdeveloped countries have working markets, it's just that a lot of the data is not being tracked.
+
+Gini coefficient of U.S
+```
+# show the gini index!
+print('gini coefficienet',gini(arr))
+print('min', min(arr))
+lorenz_curve = lorenz(arr)
+```
+Gini coefficient is measureed from 0 to 1, 0 being the most equal society (equality line) and 1 being the most inequal (1 person produces it all). 
+For the 2019, the gini coefficient for world gdp is .87 which is pretty high and further supports the pareto distribution being a good assumption. 
+
+# Optimizing the log likelihood function of the Pareto Distribution
+
+Here is the derivation of the log like function from wiki:
+
+![image](https://user-images.githubusercontent.com/64437206/110269752-fe61c700-7f89-11eb-83f7-51045de3e689.png)
+
+Here is my function for log likelihood function:
+Make note for the xm parameter, that is always the min of the data so we're just computing one estimate alpha.
+
+```
+
+# log likelihood function of pareto distribution
+
+def fun(a, data):
+    xm = min(data)
+    n = data.size
+    print("a",a) #print statements to help with debugging
+    print("xm",xm)
+#    print n
+    f = zeros(n)
+    for i in range(n):
+#       print f[i]
+       f[i] = log(a)+a*log(xm)-(a+1)*log(data[i]) #log likelihood function
+#       print f[i]
+    fsum = sum(f)
+#    print fsum 
+    print("fsum",-fsum)
+    return -fsum # return negative b/c there is only a min function (making it negative will maximize the function) hence maximum likelihood estimate
+```
+Optimizing as well as computing variance/std error using Hessian
+```
+theta_mle = minimize(fun,guess, args=arr, tol=.1,options={'maxiter':1000,'disp':True})
+
+print(theta_mle)
+# Compute Hessian for the variance of theta_mle
+# H = - sum(data)/(theta^2)
+
+estimate = theta_mle.x
+print("parameter estimate", estimate)
+
+H = - sum(arr)/(estimate**2)
+var_theta = -1/H
+print("variance", var_theta)
+se_theta = sqrt(var_theta)
+print("standard error", se_theta)
+```
+![image](https://user-images.githubusercontent.com/64437206/110270356-3f0e1000-7f8b-11eb-8b4c-4485256d1a63.png)
+
+Looks like my optimization was successful and found the maximum likelihood estimate for alpha in three iterations.
 
 
 
