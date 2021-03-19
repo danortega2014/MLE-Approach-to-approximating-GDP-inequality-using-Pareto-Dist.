@@ -3,9 +3,11 @@
 Data was retrieved from the World Bank. 
 
 link: https://databank.worldbank.org/reports.aspx?source=2&series=NY.GDP.MKTP.CN&country=#
+As previously explained in my 
 
+To conduct the maximum likelihood estimate, I'm gonna make an assumption that this data follows a pareto distribution. A pareto distribution is a common distribution amongst many fields, but is especially prominent wealth economics. The pareto principal, which is the underlying idea of this distribution, is that 80% of an outcome is caused by 20% of the causes. This idea can be illustrated with gdp, as in 80% of gdp is caused by 20% of the population. The pdf of the pareto distribution, is characterized by two parameters: Xm and alpha. Xm is fixed and is simply the minimum value of the variable. We will be estimating alpha which like the gini coefficient, represents inequality with an alpha of 1.16 representing the 80-20 rule.I will find the estimate for alpha itself by numerically optimizing the log like function of the pareto dist. pdf using the scipy optimize package.
 
-To conduct the maximum likelihood estimate, I'm gonna make an assumption that this data follows a pareto distribution. A pareto distribution is a common distribution amongst many fields, but is especially prominent wealth economics. The pareto principal, which is the underlying idea of this distribution, is that 80% of an outcome is caused by 20% of the causes. This idea can be illustrated with gdp, as in 80% of gdp is caused by 20% of the population. I will be looking specifically at GDP for all countries for 2019.  I will illustrate the distribution as well as a lorenz curve (gdp version) using matplot. I will find the estimate for alpha itself by numerically optimizing the log like function of the pareto dist. pdf using the scipy optimize package.
+I will be looking specifically at GDP for all countries for 2019.  I will illustrate the distribution as well as a lorenz curve (gdp version) using matplot. While the lorenz curve is generally used to look at the cum. percen ratios of wealth to population as a measure of income inequality,  it can also be used to illustrate inequalities of other variables such as GDP.   
 
 
 ![image](https://user-images.githubusercontent.com/64437206/110268736-d3767380-7f87-11eb-9d58-8cf1cf170d6d.png)
