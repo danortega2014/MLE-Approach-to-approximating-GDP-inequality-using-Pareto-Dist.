@@ -3,7 +3,7 @@
 Data was retrieved from the World Bank. 
 
 link: https://databank.worldbank.org/reports.aspx?source=2&series=NY.GDP.MKTP.CN&country=#
-As previously explained in my 
+
 
 To conduct the maximum likelihood estimate, I'm gonna make an assumption that this data follows a pareto distribution. A pareto distribution is a common distribution amongst many fields, but is especially prominent wealth economics. The pareto principal, which is the underlying idea of this distribution, is that 80% of an outcome is caused by 20% of the causes. This idea can be illustrated with gdp, as in 80% of gdp is caused by 20% of the population. The pdf of the pareto distribution, is characterized by two parameters: Xm and alpha. Xm is fixed and is simply the minimum value of the variable. We will be estimating alpha which like the gini coefficient, represents inequality with an alpha of 1.16 representing the 80-20 rule.I will find the estimate for alpha itself by numerically optimizing the log like function of the pareto dist. pdf using the scipy optimize package.
 
@@ -148,6 +148,8 @@ print("standard error", se_theta)
 ![image](https://user-images.githubusercontent.com/64437206/110270356-3f0e1000-7f8b-11eb-8b4c-4485256d1a63.png)
 
 Looks like my optimization was successful and found the maximum likelihood estimate for alpha in three iterations.
+
+Suprisingly, the estimate for alpha was only .014 which suggest a low pareto principal.
 
 
 
