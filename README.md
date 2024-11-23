@@ -149,7 +149,7 @@ print("standard error", se_theta)
 
 Looks like my optimization was successful and found the maximum likelihood estimate for alpha in three iterations.
 
-Suprisingly, the estimate for alpha was only .014 which suggest a low pareto principal.
+Suprisingly, the estimate for alpha was only .014 which suggest an extreme inequality that few countries contribute to a vast majority of gdp. 
 
 
 
